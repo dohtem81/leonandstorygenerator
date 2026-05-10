@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Bajkogenerator" lang="pl">
+  <div class="hero">
+    <div class="device" aria-hidden="true">
+      <div class="device-screen">Kliknij mnie</div>
+      <div class="device-button"></div>
+    </div>
+
+    <h1 class="title">Bajkogenerator</h1>
+    <p class="subtitle">Gdzieś pomiędzy snem a rzeczywistością…</p>
+
+    <div class="lang-cards">
+      <a href="/pl" class="lang-card">
+        <span class="flag">🇵🇱</span>
+        <span class="lang-name">Po polsku</span>
+        <span class="lang-count">19 rozdziałów</span>
+      </a>
+      <a href="/en" class="lang-card">
+        <span class="flag">🇬🇧</span>
+        <span class="lang-name">In English</span>
+        <span class="lang-count">19 chapters</span>
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 78vh;
+    text-align: center;
+    gap: 1.75rem;
+  }
+
+  .device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    animation: float 4.5s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  .device-screen {
+    background: rgba(240, 192, 96, 0.1);
+    border: 1px solid rgba(240, 192, 96, 0.45);
+    border-radius: 8px;
+    padding: 0.45rem 1.1rem;
+    font-size: 0.82rem;
+    color: #f0c060;
+    text-shadow: 0 0 12px rgba(240, 192, 96, 0.7);
+    animation: screen-blink 3.5s ease-in-out infinite;
+    letter-spacing: 0.04em;
+  }
+
+  @keyframes screen-blink {
+    0%, 88%, 100% { opacity: 1; }
+    93%           { opacity: 0.35; }
+  }
+
+  .device-button {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #f0c060;
+    animation: btn-pulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes btn-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(240,192,96,0.7), 0 0 22px rgba(240,192,96,0.35); }
+    50%       { box-shadow: 0 0 18px rgba(240,192,96,1),   0 0 38px rgba(240,192,96,0.6); }
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 9vw, 5.5rem);
+    color: #f0c060;
+    text-shadow:
+      0 0 40px rgba(240, 192, 96, 0.45),
+      0 0 90px rgba(240, 192, 96, 0.2);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #9898be;
+    margin-top: -0.75rem;
+  }
+
+  .lang-cards {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .lang-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.6rem 2.8rem;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(240, 192, 96, 0.18);
+    border-radius: 18px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+
+  .lang-card:hover {
+    background: rgba(240, 192, 96, 0.07);
+    border-color: rgba(240, 192, 96, 0.45);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(240, 192, 96, 0.12);
+  }
+
+  .flag       { font-size: 2.4rem; }
+  .lang-name  { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #e8dcc8; }
+  .lang-count { font-size: 0.78rem; color: #60607a; letter-spacing: 0.06em; }
+</style>

@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import fs from 'fs';
+import path from 'path';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'pl' } }, { params: { lang: 'en' } }];
+}
+
+const { lang } = Astro.params as { lang: string };
+const storiesDir = path.join(process.cwd(), '..', 'stories', lang);
+const chaptersRaw = fs.readFileSync(path.join(storiesDir, 'chapters.txt'), 'utf-8');
+
+const chapterLines = chaptersRaw
+  .split('\n')
+  .filter(line => /^(Rozdział|Chapter)\s+\d+/.test(line.trim()));
+
+const chapters = chapterLines.map((line, i) => {
+  const title = line.split('—')[1]?.trim() ?? '';
+  const num = String(i + 1).padStart(3, '0');
+  return { num, title, index: i + 1 };
+});
+
+const isPolish = lang === 'pl';
+const heading   = isPolish ? 'Spis rozdziałów' : 'Table of Contents';
+const subtitle  = isPolish ? 'Wybierz rozdział i wyrusz w podróż' : 'Choose a chapter and begin your journey';
+---
+
+<Layout title={heading} lang={lang}>
+  <div class="container">
+    <header class="page-header">
+      <h1>{heading}</h1>
+      <p class="page-subtitle">{subtitle}</p>
+    </header>
+
+    <ol class="chapter-list">
+      {chapters.map(ch => (
+        <li>
+          <a href={`/${lang}/${ch.index}`} class="chapter-card">
+            <span class="chapter-num">{String(ch.index).padStart(2, '0')}</span>
+            <span class="chapter-title">{ch.title}</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Layout>
+
+<style>
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: #f0c060;
+    text-shadow: 0 0 30px rgba(240, 192, 96, 0.4);
+    margin-bottom: 0.6rem;
+  }
+
+  .page-subtitle {
+    font-style: italic;
+    color: #7878a0;
+    font-size: 0.95rem;
+  }
+
+  .chapter-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .chapter-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 1.4rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(240, 192, 96, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: #d8cfc0;
+    transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    backdrop-filter: blur(6px);
+  }
+
+  .chapter-card:hover {
+    background: rgba(240, 192, 96, 0.07);
+    border-color: rgba(240, 192, 96, 0.4);
+    transform: translateX(4px);
+    box-shadow: 0 4px 24px rgba(240, 192, 96, 0.1);
+    color: #f0ead8;
+  }
+
+  .chapter-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: #f0c060;
+    opacity: 0.7;
+    min-width: 2.2rem;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+
+  .chapter-card:hover .chapter-num {
+    opacity: 1;
+  }
+
+  .chapter-title {
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .arrow {
+    color: #5050708;
+    font-size: 1rem;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+    color: #f0c060;
+  }
+
+  .chapter-card:hover .arrow {
+    opacity: 0.6;
+    transform: translateX(0);
+  }
+
+  @media (max-width: 600px) {
+    .chapter-card { padding: 0.85rem 1rem; gap: 1rem; }
+    .chapter-title { font-size: 0.92rem; }
+  }
+</style>
