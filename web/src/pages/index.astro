@@ -1,5 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import fs from 'fs';
+import path from 'path';
+
+const chaptersRaw = fs.readFileSync(
+  path.join(process.cwd(), '..', 'stories', 'pl', 'chapters.txt'),
+  'utf-8'
+);
+const chapterCount = chaptersRaw
+  .split('\n')
+  .filter(line => /^Rozdział\s+\d+/.test(line.trim()))
+  .length;
 ---
 
 <Layout title="Bajkogenerator" lang="pl">
@@ -16,12 +27,12 @@ import Layout from '../layouts/Layout.astro';
       <a href="/pl" class="lang-card">
         <span class="flag">🇵🇱</span>
         <span class="lang-name">Po polsku</span>
-        <span class="lang-count">19 rozdziałów</span>
+        <span class="lang-count">{chapterCount} rozdziałów</span>
       </a>
       <a href="/en" class="lang-card">
         <span class="flag">🇬🇧</span>
         <span class="lang-name">In English</span>
-        <span class="lang-count">19 chapters</span>
+        <span class="lang-count">{chapterCount} chapters</span>
       </a>
     </div>
   </div>
