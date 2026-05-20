@@ -12,7 +12,7 @@ So I opened ChatGPT, gave it a few hints about what I wanted — a boy, a magic 
 
 He loved it.
 
-That was three weeks ago. Since then I've been sitting down every few days, shaping the next chapter, nudging the direction, adding the running jokes and recurring characters that he keeps asking about. 23 chapters later, here we are.
+That was three weeks ago. Since then I've been sitting down every few days, shaping the next chapter, nudging the direction, adding the running jokes and recurring characters that he keeps asking about. 24 chapters later, here we are.
 
 These stories didn't write themselves — AI gave me the raw material, but every chapter went through rounds of "no, make him more scared here" and "the dragon needs to be funnier" and "can the sausage come back?". It became a proper collaborative thing, just between me, my son, and a language model at midnight.
 
@@ -58,6 +58,7 @@ The stories are:
 | 21 | Symulacja stresu scenicznego | Stage Stress Simulation |
 | 22 | Planeta Na Opakową | Planet Upside-Down |
 | 23 | Ostatnie cztery dni | The Last Four Days |
+| 24 | Balonowa zasadzka | The Balloon Ambush |
 
 ---
 
@@ -72,6 +73,34 @@ The stories are published as a static website built with [Astro](https://astro.b
 ## For other parents
 
 If any of these make your kid laugh, or help you get through a late-night "just one more story", that's the whole point. Take them, read them, skip the chapters that don't land, add your own details. The Bajkogenerator belongs to whoever needs it that night.
+
+---
+
+## Adding new chapters
+
+New chapters are written in Polish first and saved as `stories/pl/<NNN>.txt`. That's all — the agent takes care of everything else.
+
+There is a Copilot prompt that automates everything that comes after. Open any Copilot chat in VS Code and run:
+
+```
+/add-chapters 024
+```
+
+Or pass multiple numbers at once:
+
+```
+/add-chapters 024 025
+```
+
+With no argument it will detect any Polish files that are missing an English counterpart automatically.
+
+The prompt will:
+1. Translate the new Polish story/stories to English and save them in `stories/en/`
+2. Append the new chapter titles to `stories/pl/chapters.txt` and `stories/en/chapters.txt`
+3. Update the hardcoded chapter count in `web/src/pages/[lang]/[chapter].astro`
+4. Add the new rows to the README chapter table and update the chapter count in the intro
+
+The prompt file lives at `.github/prompts/add-chapters.prompt.md`.
 
 ---
 
