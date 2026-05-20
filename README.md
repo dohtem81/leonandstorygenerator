@@ -12,7 +12,7 @@ So I opened ChatGPT, gave it a few hints about what I wanted — a boy, a magic 
 
 He loved it.
 
-That was three weeks ago. Since then I've been sitting down every few days, shaping the next chapter, nudging the direction, adding the running jokes and recurring characters that he keeps asking about. 19 chapters later, here we are.
+That was three weeks ago. Since then I've been sitting down every few days, shaping the next chapter, nudging the direction, adding the running jokes and recurring characters that he keeps asking about. 23 chapters later, here we are.
 
 These stories didn't write themselves — AI gave me the raw material, but every chapter went through rounds of "no, make him more scared here" and "the dragon needs to be funnier" and "can the sausage come back?". It became a proper collaborative thing, just between me, my son, and a language model at midnight.
 
@@ -54,6 +54,10 @@ The stories are:
 | 17 | Smok napędowy | Dragon-Powered |
 | 18 | Książę Naleśnikonu | Prince of Pancakeon |
 | 19 | Noc w muzeum zagubionych historii | Night at the Museum of Lost Stories |
+| 20 | Piekielna kiełbasa kosmiczna | Cosmic Hellfire Sausage |
+| 21 | Symulacja stresu scenicznego | Stage Stress Simulation |
+| 22 | Planeta Na Opakową | Planet Upside-Down |
+| 23 | Ostatnie cztery dni | The Last Four Days |
 
 ---
 
