@@ -12,7 +12,7 @@ So I opened ChatGPT, gave it a few hints about what I wanted — a boy, a magic 
 
 He loved it.
 
-That was three weeks ago. Since then I've been sitting down every few days, shaping the next chapter, nudging the direction, adding the running jokes and recurring characters that he keeps asking about. 24 chapters later, here we are.
+That was three weeks ago. Since then I've been sitting down every few days, shaping the next chapter, nudging the direction, adding the running jokes and recurring characters that he keeps asking about. 28 chapters later, here we are.
 
 These stories didn't write themselves — AI gave me the raw material, but every chapter went through rounds of "no, make him more scared here" and "the dragon needs to be funnier" and "can the sausage come back?". It became a proper collaborative thing, just between me, my son, and a language model at midnight.
 
@@ -59,6 +59,10 @@ The stories are:
 | 22 | Planeta Na Opakową | Planet Upside-Down |
 | 23 | Ostatnie cztery dni | The Last Four Days |
 | 24 | Balonowa zasadzka | The Balloon Ambush |
+| 25 | Planeta Pancakea | Planet Pancakea |
+| 26 | Wakacyjny Cookout | Holiday Cookout |
+| 27 | Smocze Jajka | Dragon Eggs |
+| 28 | Planeta Pink | Planet Pink |
 
 ---
 
@@ -80,27 +84,28 @@ If any of these make your kid laugh, or help you get through a late-night "just 
 
 New chapters are written in Polish first and saved as `stories/pl/<NNN>.txt`. That's all — the agent takes care of everything else.
 
-There is a Copilot prompt that automates everything that comes after. Open any Copilot chat in VS Code and run:
+There are two Copilot prompts for this. Open any Copilot chat in VS Code and use:
 
+**Single chapter:**
 ```
-/add-chapters 024
+/add-chapter 026
 ```
+With no argument it will detect the one Polish file that is missing an English counterpart automatically.
 
-Or pass multiple numbers at once:
-
+**Multiple chapters** (range or list):
 ```
-/add-chapters 024 025
+/add-chapters 026-028
+/add-chapters 026 027 028
 ```
+With no argument it detects all missing files and processes them in order. It calls `/add-chapter` once per chapter, waiting for each to finish before starting the next, then prints a summary table.
 
-With no argument it will detect any Polish files that are missing an English counterpart automatically.
-
-The prompt will:
-1. Translate the new Polish story/stories to English and save them in `stories/en/`
-2. Append the new chapter titles to `stories/pl/chapters.txt` and `stories/en/chapters.txt`
+Each run of `/add-chapter` will:
+1. Translate the new Polish story to English and save it in `stories/en/`
+2. Append the new chapter title to `stories/pl/chapters.txt` and `stories/en/chapters.txt`
 3. Update the hardcoded chapter count in `web/src/pages/[lang]/[chapter].astro`
-4. Add the new rows to the README chapter table and update the chapter count in the intro
+4. Add the new row to the README chapter table and update the chapter count in the intro
 
-The prompt file lives at `.github/prompts/add-chapters.prompt.md`.
+The prompt files live at `.github/prompts/add-chapter.prompt.md` and `.github/prompts/add-chapters.prompt.md`.
 
 ---
 

@@ -6,7 +6,7 @@ import path from 'path';
 export function getStaticPaths() {
   const paths = [];
   for (const lang of ['pl', 'en']) {
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= 28; i++) {
       paths.push({ params: { lang, chapter: String(i) } });
     }
   }
@@ -16,7 +16,7 @@ export function getStaticPaths() {
 const { lang, chapter } = Astro.params as { lang: string; chapter: string };
 const i = parseInt(chapter);
 const num = String(i).padStart(3, '0');
-const totalChapters = 24;
+const totalChapters = 28;
 
 const storiesDir = path.join(process.cwd(), '..', 'stories', lang);
 
