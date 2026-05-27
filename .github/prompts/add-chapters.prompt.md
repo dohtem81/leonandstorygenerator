@@ -1,76 +1,37 @@
 ---
 name: "Add New Chapters"
-description: "Use when new Polish story files have been added to stories/pl/ and need to be translated to English, chapters.txt updated in both languages, and the website chapter count updated."
-argument-hint: "e.g. 024 025  (space-separated file numbers, without .txt)"
+description: "Use when multiple new Polish story files need to be processed. Accepts a range (e.g. 026-028), a list (e.g. 026 027 028), or auto-detects all missing files. Calls the Add New Chapter prompt once per chapter in order."
+argument-hint: "e.g. 026-028  or  026 027 028  (range or space-separated list; omit to auto-detect)"
 agent: "agent"
 ---
 
-New Polish story files have been added to `stories/pl/`. Complete all steps below.
+Multiple new Polish story files have been added to `stories/pl/`. Process them one by one using the **Add New Chapter** prompt.
 
 ## Input
 
-The user may specify file numbers as an argument (e.g. `024 025`).
-If no argument is given, detect new files automatically by comparing `stories/pl/` against `stories/en/` — any numbered `.txt` file present in `pl/` but missing in `en/` is new.
+The user may provide:
+- A **range**: e.g. `026-028` — expand to `026`, `027`, `028`
+- A **list**: e.g. `026 027 028` — use as-is
+- **Nothing** — auto-detect all numbered `.txt` files present in `stories/pl/` but missing in `stories/en/`, sorted ascending
 
 ## Steps
 
-### 1 — Read Polish source files
+### 1 — Resolve the chapter list
 
-For each new file number:
-- Read the full content of `stories/pl/<NNN>.txt`
+Based on the input above, produce an ordered list of zero-padded three-digit file numbers (e.g. `["026", "027", "028"]`).
 
-### 2 — Derive chapter titles
+### 2 — Process each chapter in order
 
-The new story file does not yet have an entry in `chapters.txt`. Read the full story content and derive a concise, fitting Polish chapter title (noun phrase, consistent with the style of existing Polish titles in `stories/pl/chapters.txt`). Then produce an English equivalent matching the style of existing English titles in `stories/en/chapters.txt` (concise, title-case noun phrase).
+For each number in the list, invoke the **Add New Chapter** prompt (`add-chapter.prompt.md`) with that number as the argument.
 
-### 3 — Translate to English
+Wait for each chapter to be fully completed before starting the next one.
 
-Translate each Polish story to English following these rules:
-- Match the tone, rhythm and formatting of the existing English stories in `stories/en/` exactly
-- Keep all dialogue dashes (`—`), bold markers (`**…**`), horizontal rules (`---`), italics, and emoji
-- "Bajkogenerator" → "Storygenerator", "Iskra 7" → "Spark 7"
-- Preserve all sound-effect words in a natural English equivalent (e.g. `PRRT`, `BŁUP`, `PLASK` → `PRRT`, `BLUP`, `SPLAT`)
-- Keep the song/poem stanzas rhyming in English where the Polish original rhymes
+### 3 — Summary
 
-### 4 — Save English translation
+After all chapters have been processed, print a short summary table:
 
-Write each translated story to `stories/en/<NNN>.txt`.
+| # | File | Polish title | English title |
+|---|------|-------------|---------------|
+| … | …    | …           | …             |
 
-### 5 — Update chapters.txt (Polish)
-
-Append a new line to `stories/pl/chapters.txt` for each new chapter, following the exact format of existing lines:
-```
-Rozdział <N> — <Polish title>
-```
-
-### 6 — Update chapters.txt (English)
-
-Append a new line to `stories/en/chapters.txt` for each new chapter:
-```
-Chapter <N> — <English title>
-```
-
-### 7 — Update website chapter count
-
-Open `web/src/pages/[lang]/[chapter].astro`.
-Find the two hardcoded numbers that cap the chapter range:
-- the upper bound in `for (let i = 1; i <= <N>; i++)` inside `getStaticPaths`
-- `const totalChapters = <N>;`
-
-Update both to the new total chapter count.
-
-### 8 — Update README
-
-In `README.md`, update the chapters table by appending a row for each new chapter:
-```
-| <N> | <Polish title> | <English title> |
-```
-Also update the sentence "X chapters later, here we are." to the new total.
-
-## Verification
-
-After completing all steps, confirm:
-- `stories/en/<NNN>.txt` exists and has the full translated content
-- `stories/pl/chapters.txt` and `stories/en/chapters.txt` both list the new chapter(s)
-- `[chapter].astro` loop bound and `totalChapters` both equal the new total
-- README table includes the new chapter(s)
+Confirm the final total chapter count and that all files, `chapters.txt` entries, `[chapter].astro`, and README are up to date.
